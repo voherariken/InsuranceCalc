@@ -29,8 +29,8 @@ namespace InsuranceCalc.API.Services
 
         private double GetOccupationRatingFactor(int occupationId)
         {
-            var ratigFactorId = this._unitOfWork.InsuranceRepository.GetOccupationList().FirstOrDefault(p => p.OccupationId == occupationId).RatingFactorId;
-            return this._unitOfWork.InsuranceRepository.GetRatingFactors().FirstOrDefault(p => p.RatingFactorId == ratigFactorId).Factor;
+            var ratigFactorId = this._unitOfWork.InsuranceRepository.GetOccupationList().Single(p => p.OccupationId == occupationId).RatingFactorId;
+            return this._unitOfWork.InsuranceRepository.GetRatingFactors().Single(p => p.RatingFactorId == ratigFactorId).Factor;
         }
     }
 }

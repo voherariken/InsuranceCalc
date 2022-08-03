@@ -1,14 +1,10 @@
 ﻿using InsuranceCalc.API.Entities;
 using InsuranceCalc.API.Models;
-using InsuranceCalc.API.Services;
 using InsuranceCalc.API.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace InsuranceCalc.API.Controllers
 {
@@ -16,9 +12,11 @@ namespace InsuranceCalc.API.Controllers
     [ApiController]
     public class InsuranceCalculatorController : ControllerBase
     {
+        private readonly ILogger<InsuranceCalculatorController> _logger;
         private readonly IInsuranceService _insuranceService;
-        public InsuranceCalculatorController(IInsuranceService insuranceService)
+        public InsuranceCalculatorController(ILogger<InsuranceCalculatorController> logger, IInsuranceService insuranceService)
         {
+            this._logger = logger;
             this._insuranceService = insuranceService;
         }
 
@@ -35,18 +33,28 @@ namespace InsuranceCalc.API.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
+                if (!ModelState.IsValid || !this.ValidateInsuranceCalcModel(insuranceCalcModel))
                 {
-                    return BadRequest(); //see how to send errors too
+                    return BadRequest();
                 }
-                //Check other validations i.e. Age is too high, DOB is invalid etc.
+                
                 var deathPremium = this._insuranceService.CalculateDeathPremium(insuranceCalcModel.DeathSumInsured, insuranceCalcModel.OccupationId, insuranceCalcModel.Age);
                 return Ok(deathPremium);
             }
-            catch(Exception ex) //log exception
+            catch(Exception ex)
             {
+                this._logger.LogError(ex.Message);
                 return BadRequest();
             }
+        }
+
+        private bool ValidateInsuranceCalcModel(InsuranceCalcModel insuranceCalcModel)
+        {
+            if (insuranceCalcModel.DateOfBirth > DateTime.Now || insuranceCalcModel.DateOfBirth.Year < 1900)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

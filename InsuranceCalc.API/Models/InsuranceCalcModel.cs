@@ -11,14 +11,14 @@ namespace InsuranceCalc.API.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        [Range(0, Double.MaxValue, ErrorMessage ="Age cannot be negative")]
+        [Range(1, Double.MaxValue, ErrorMessage ="Age cannot be negative")]
         public int Age { get; set; }
         [Required]
         public DateTime DateOfBirth { get; set; }
         [Required]
         public int OccupationId { get; set; }
         [Required]
-        [Range(0, Double.MaxValue, ErrorMessage = "DeathSumInsured cannot be negative")]
+        [Range(1, Double.MaxValue, ErrorMessage = "DeathSumInsured cannot be negative")]
         public double DeathSumInsured { get; set; }
 
     }

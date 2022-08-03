@@ -28,6 +28,15 @@ namespace InsuranceCalc.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("MyAllowSpecificOrigins",
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:4200")
+                                      .AllowAnyMethod().AllowAnyHeader().Build();
+                                  });
+            });
             services.AddControllers();
             services.AddScoped<IInsuranceService, InsuranceService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -44,6 +53,8 @@ namespace InsuranceCalc.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("MyAllowSpecificOrigins");
 
             app.UseAuthorization();
 

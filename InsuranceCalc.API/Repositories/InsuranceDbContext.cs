@@ -16,7 +16,7 @@ namespace InsuranceCalc.API.Repositories
             new Occupation{ OccupationId = 3, OccupationName = "Author", RatingFactorId = 2 },
             new Occupation{ OccupationId = 4, OccupationName = "Farmer", RatingFactorId = 4 },
             new Occupation{ OccupationId = 5, OccupationName = "Mechanic", RatingFactorId = 4 },
-            new Occupation{ OccupationId = 5, OccupationName = "Florist", RatingFactorId = 3 }
+            new Occupation{ OccupationId = 6, OccupationName = "Florist", RatingFactorId = 3 }
         };
 
         private static List<RatingFactor> ratingFactors = new List<RatingFactor>()
