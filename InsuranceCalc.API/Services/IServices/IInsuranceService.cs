@@ -1,4 +1,4 @@
-﻿using InsuranceCalc.API.Entities;
+﻿using InsuranceCalc.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ namespace InsuranceCalc.API.Services.IServices
 {
     public interface IInsuranceService
     {
-        List<Occupation> GetAllOccupations();
+        List<OccupationModel> GetAllOccupations();
         double CalculateDeathPremium(double deathSumInsured, int occupationId, int age);
     }
 }

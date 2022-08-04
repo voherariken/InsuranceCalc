@@ -42,7 +42,10 @@ namespace InsuranceCalc.Test.ServicesTest
 
         [Theory]
         [InlineData(100000, 1, 25, 45000)]
-        public void TestCalculateDeathPremium(double deathSumInsured, int occupationId, int age, int expectedResult)
+        [InlineData(100000, 2, 0, 0)]
+        [InlineData(0, 1, 25, 0)]
+        [InlineData(555.45, 3, 37, 308.27)]
+        public void TestCalculateDeathPremium(double deathSumInsured, int occupationId, int age, double expectedResult)
         {
             //Arrange
             this._unitOfWork.Setup(p => p.InsuranceRepository.GetOccupationList()).Returns(this.occupations);
@@ -50,9 +53,25 @@ namespace InsuranceCalc.Test.ServicesTest
 
             //Act
             var actualResult = this._iInsuranceService.CalculateDeathPremium(deathSumInsured, occupationId, age);
-
+    
             //Assert
             Assert.Equal(expectedResult, actualResult);
+            //Equal | True | Not NULL | NULL
+        }
+
+        [Fact]
+        public void TestCalculateDeathPremiumInvalidOccupation()
+        {
+            //Arrange
+            this._unitOfWork.Setup(p => p.InsuranceRepository.GetOccupationList()).Returns(this.occupations);
+            this._unitOfWork.Setup(p => p.InsuranceRepository.GetRatingFactors()).Returns(this.ratingFactors);
+
+            //Act
+            Action act = () => this._iInsuranceService.CalculateDeathPremium(100000, 0, 25);
+
+            //Assert
+            var exception = Assert.Throws<InvalidOperationException>(act);
+            Assert.Equal("Sequence contains no matching element", exception.Message);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace InsuranceCalc.API.Controllers
 
         [Route("occupations")]
         [HttpGet]
-        public IEnumerable<Occupation> GetOccupations()
+        public IEnumerable<OccupationModel> GetOccupations()
         {
             return this._insuranceService.GetAllOccupations();
         }

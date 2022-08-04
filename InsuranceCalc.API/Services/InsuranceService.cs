@@ -1,4 +1,4 @@
-﻿using InsuranceCalc.API.Entities;
+﻿using InsuranceCalc.API.Models;
 using InsuranceCalc.API.Repositories;
 using InsuranceCalc.API.Services.IServices;
 using System;
@@ -16,15 +16,23 @@ namespace InsuranceCalc.API.Services
             this._unitOfWork = unitOfWork;
         }
 
-        public List<Occupation> GetAllOccupations()
+        public List<OccupationModel> GetAllOccupations()
         {
-            return this._unitOfWork.InsuranceRepository.GetOccupationList();
+            return this._unitOfWork.InsuranceRepository.GetOccupationList()
+                .Select(
+                p => new OccupationModel
+                {
+                    OccupationId = p.OccupationId,
+                    OccupationName = p.OccupationName
+                })
+                .ToList();
         }
 
         public double CalculateDeathPremium(double deathSumInsured, int occupationId, int age)
         {
             var occupationRatingFactor = this.GetOccupationRatingFactor(occupationId);
-            return (deathSumInsured * occupationRatingFactor * age * 12) / 1000;
+            var deathPremium = (deathSumInsured * occupationRatingFactor * age * 12) / 1000;
+            return Math.Round(deathPremium, 2);
         }
 
         private double GetOccupationRatingFactor(int occupationId)
