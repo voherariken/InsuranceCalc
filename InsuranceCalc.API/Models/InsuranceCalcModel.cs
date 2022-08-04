@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace InsuranceCalc.API.Models
 {
@@ -11,14 +8,14 @@ namespace InsuranceCalc.API.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        [Range(1, Double.MaxValue, ErrorMessage ="Age cannot be negative")]
+        [Range(1, Double.MaxValue, ErrorMessage = "Age cannot be less than 1")]
         public int Age { get; set; }
         [Required]
         public DateTime DateOfBirth { get; set; }
         [Required]
         public int OccupationId { get; set; }
         [Required]
-        [Range(1, Double.MaxValue, ErrorMessage = "DeathSumInsured cannot be negative")]
+        [Range(1, Double.MaxValue, ErrorMessage = "Death Sum Insured cannot be less than 1")]
         public double DeathSumInsured { get; set; }
 
     }

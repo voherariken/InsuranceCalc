@@ -30,10 +30,10 @@ namespace InsuranceCalc.API
         {
             services.AddCors(options =>
             {
-                options.AddPolicy("MyAllowSpecificOrigins",
+                options.AddPolicy("AllowedOrigins",
                                   builder =>
                                   {
-                                      builder.WithOrigins("http://localhost:4200")
+                                      builder.WithOrigins(Configuration.GetSection("AllowedOrigins").Value)
                                       .AllowAnyMethod().AllowAnyHeader().Build();
                                   });
             });
@@ -54,7 +54,7 @@ namespace InsuranceCalc.API
 
             app.UseRouting();
 
-            app.UseCors("MyAllowSpecificOrigins");
+            app.UseCors("AllowedOrigins");
 
             app.UseAuthorization();
 

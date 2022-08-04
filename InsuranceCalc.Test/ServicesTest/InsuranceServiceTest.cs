@@ -5,7 +5,6 @@ using InsuranceCalc.API.Services.IServices;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace InsuranceCalc.Test.ServicesTest
@@ -55,8 +54,7 @@ namespace InsuranceCalc.Test.ServicesTest
             var actualResult = this._iInsuranceService.CalculateDeathPremium(deathSumInsured, occupationId, age);
     
             //Assert
-            Assert.Equal(expectedResult, actualResult);
-            //Equal | True | Not NULL | NULL
+            Assert.Equal(expectedResult, actualResult);            
         }
 
         [Fact]
